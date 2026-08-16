@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101318">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>BILLZY // Dashboard</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">B</div>
+        <div><strong>BILLZY</strong><span>CONTROL DECK</span></div>
+      </div>
+      <div class="status"><i></i> SYSTEM ONLINE</div>
+      <button class="menu" aria-label="Menu">•••</button>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">PERSONAL COMMAND CENTRE</p>
+        <h1 id="greeting">Good evening, Billzy.</h1>
+        <p class="sub">Everything you use. One surface. No clutter.</p>
+      </div>
+      <div class="clock">
+        <strong id="clock">00:00</strong>
+        <span id="date">LOADING DATE</span>
+      </div>
+    </section>
+
+    <section class="quick">
+      <button class="quick-card accent" onclick="launch('AI')"><span>✦</span><b>AI</b><small>Chat · Search · Models</small></button>
+      <button class="quick-card" onclick="launch('CREATE')"><span>◈</span><b>CREATE</b><small>Image · Video · Music</small></button>
+      <button class="quick-card" onclick="launch('TOOLS')"><span>⌘</span><b>TOOLS</b><small>Utilities · Files · Dev</small></button>
+    </section>
+
+    <div class="section-head"><span>APPLICATIONS</span><em>12 SLOTS</em></div>
+
+    <section class="apps">
+      <button class="app" onclick="launch('ChatGPT')"><span class="icon">✦</span><b>ChatGPT</b><small>AI assistant</small></button>
+      <button class="app" onclick="launch('Gemini')"><span class="icon">✧</span><b>Gemini</b><small>Google AI</small></button>
+      <button class="app" onclick="launch('Perplexity')"><span class="icon">P</span><b>Perplexity</b><small>AI search</small></button>
+      <button class="app" onclick="launch('Suno')"><span class="icon">♫</span><b>Suno</b><small>Music studio</small></button>
+      <button class="app" onclick="launch('Firefly')"><span class="icon">✺</span><b>Firefly</b><small>Creative AI</small></button>
+      <button class="app" onclick="launch('Runway')"><span class="icon">R</span><b>Runway</b><small>Video AI</small></button>
+      <button class="app" onclick="launch('Canva')"><span class="icon">C</span><b>Canva</b><small>Design</small></button>
+      <button class="app" onclick="launch('Spotify')"><span class="icon">♫</span><b>Spotify</b><small>Music</small></button>
+      <button class="app" onclick="launch('GitHub')"><span class="icon">◉</span><b>GitHub</b><small>Projects</small></button>
+      <button class="app" onclick="launch('Files')"><span class="icon">▣</span><b>Files</b><small>Storage</small></button>
+      <button class="app" onclick="launch('Social')"><span class="icon">◎</span><b>Social</b><small>Networks</small></button>
+      <button class="app" onclick="launch('More')"><span class="icon">+</span><b>More</b><small>Add apps</small></button>
+    </section>
+
+    <section class="bottom-grid">
+      <div class="panel">
+        <div class="panel-title"><span>DEVICE</span><i>LIVE</i></div>
+        <div class="metrics">
+          <div><strong>5G</strong><small>NETWORK</small></div>
+          <div><strong id="battery">--</strong><small>BATTERY</small></div>
+          <div><strong>ONLINE</strong><small>STATUS</small></div>
+        </div>
+      </div>
+      <div class="panel quote">
+        <span>01</span>
+        <p>Make the interface disappear.<br><b>Leave only the useful bits.</b></p>
+      </div>
+    </section>
+  </main>
+
+<script>
+const links = {
+  ChatGPT:"https://chatgpt.com/", Gemini:"https://gemini.google.com/",
+  Perplexity:"https://www.perplexity.ai/", Suno:"https://suno.com/",
+  Firefly:"https://firefly.adobe.com/", Runway:"https://app.runwayml.com/",
+  Canva:"https://www.canva.com/", Spotify:"https://open.spotify.com/",
+  GitHub:"https://github.com/"
+};
+function launch(name){
+  if(links[name]) location.href = links[name];
+  else if(name==="AI") window.scrollTo({top:document.querySelector('.apps').offsetTop,behavior:'smooth'});
+  else window.scrollTo({top:document.querySelector('.apps').offsetTop,behavior:'smooth'});
+}
+function tick(){
+  const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('date').textContent=d.toLocaleDateString([], {weekday:'long',day:'numeric',month:'long'}).toUpperCase();
+}
+tick(); setInterval(tick,1000);
+if(navigator.getBattery){navigator.getBattery().then(b=>{
+  const update=()=>document.getElementById('battery').textContent=Math.round(b.level*100)+'%';
+  update(); b.addEventListener('levelchange',update);
+});}
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
